@@ -1,0 +1,16 @@
+{
+  "name": "atividadefinal_orientacaoobjetos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only ./src/index.ts"
+  },
+  "author": "Lucas Ferreira",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.3.2",
+    "@types/node": "^20.10.1",
+    "ts-node-dev": "^2.0.0"
+  }
+}

@@ -1,0 +1,13 @@
+{
+    "include": ["src/**/*.ts"],
+    "exclude": ["node_modules"],
+  
+    "compilerOptions": {
+      "target": "ESNext",
+      "module": "CommonJS",
+      "rootDir": "./src",
+      "esModuleInterop": true,
+      "resolveJsonModule": true,
+      "moduleResolution": "node"
+    }
+  }
