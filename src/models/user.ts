@@ -16,7 +16,13 @@ export class User {
     this.username = username;
     this.email = email;
     this._password = password;
-    users.push(this);
+    users.forEach((item) => {
+      if (item._id === this._id || item.username === this.username) {
+        console.log(`Um usuário com esses dados já foi criado.`);
+      } else {
+        users.push(this);
+      }
+    });
   }
 
   get id(): string {
@@ -25,12 +31,13 @@ export class User {
 
   sendTweet(tweet: Tweet) {
     tweets.push(tweet);
-    console.log(`Você enviou um novo tweet: ${tweet}.`);
+    console.log(`${this.username} enviou um novo tweet: ${tweet}.`);
   }
 
   follow(user: User) {
     console.log(
-      `Você seguiu: ${user}.\nSeu número de seguidores é: ${this.follows++}.`
+      `${this.username} seguiu: ${user}.\nSeu número de seguidores é: ${this
+        .follows++}.`
     );
   }
 
@@ -43,7 +50,7 @@ export class User {
       if (item.id === this._id) {
         console.log(item);
       } else {
-        console.log(`Você não criou nenhum Tweet.`);
+        console.log(`${this.username} não criou nenhum Tweet.`);
       }
     });
   }
