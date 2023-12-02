@@ -5,4 +5,8 @@ export class Like {
   constructor() {
     this._id = randomUUID();
   }
+
+  get id(): string {
+    return this._id;
+  }
 }

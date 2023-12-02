@@ -1,33 +1,44 @@
 import { randomUUID } from "crypto";
-import { tweets } from "../data/tweets";
-import { replies } from "../data/replys";
+import { User } from "./user";
 import { Like } from "./like";
 
 export class Tweet {
   private _id: string;
-  content: string;
-  type: string;
+  replies: Tweet[] = [];
+  likes: User[] = [];
   createdAt: Date;
-  constructor(content: string, type: string) {
+  constructor(
+    public content: string,
+    public type: string = "normal" || "reply"
+  ) {
     this._id = randomUUID();
-    this.content = content;
-    this.type = type;
     this.createdAt = new Date();
-    tweets.push(this);
   }
 
   get id(): string {
     return this._id;
   }
 
-  reply(newContent: string): void {
-    replies.push(newContent);
-    console.log(`Tweet: ${this}\n Replys: ${replies}`);
+  reply(content: string) {
+    const newReply = new Tweet(content, "reply");
+    this.replies.push(newReply);
+    console.log(`Reply enviado.`);
+    return newReply;
   }
 
-  like() {}
+  like(user: User, like: Like) {
+    this.likes.push(user);
+    console.log(`${user.username} deu um like ${like.id}`);
+  }
 
-  show() {}
+  show(user: User) {
+    const addLikes = this.likes.length;
+    console.log(`${user.username}: ${this.content}\n
+    ${addLikes}\n
+    > ${this.replies.join("\n > ")}`);
+  }
 
-  showReplies() {}
+  showReplies() {
+    console.log(`  > ${this.replies.join("\n > ")}`);
+  }
 }

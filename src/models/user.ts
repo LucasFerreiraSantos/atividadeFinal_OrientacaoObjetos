@@ -1,57 +1,53 @@
 import { randomUUID } from "crypto";
 import { users } from "../data/users";
-import { tweets } from "../data/tweets";
 import { Tweet } from "./tweet";
 
 export class User {
   private _id: string;
-  name: string;
-  username: string;
-  email: string;
-  private _password: string;
-  follows: number = 0;
-  constructor(name: string, username: string, email: string, password: string) {
+  private followers: User[] = [];
+  private tweets: Tweet[] = [];
+  constructor(
+    private name: string,
+    private _username: string,
+    private email: string,
+    private password: string
+  ) {
     this._id = randomUUID();
-    this.name = name;
-    this.username = username;
-    this.email = email;
-    this._password = password;
-    users.forEach((item) => {
-      if (item._id === this._id || item.username === this.username) {
-        console.log(`Um usuário com esses dados já foi criado.`);
-      } else {
-        users.push(this);
-      }
-    });
+
+    if (users.find((user) => user.username === this.username)) {
+      throw new Error("Este username já existe!");
+    }
+    users.push(this);
   }
 
   get id(): string {
     return this._id;
   }
 
-  sendTweet(tweet: Tweet) {
-    tweets.push(tweet);
-    console.log(`${this.username} enviou um novo tweet: ${tweet}.`);
+  get username() {
+    return this._username;
+  }
+
+  sendTweet(content: string) {
+    const newTweet = new Tweet(content, "normal");
+    this.tweets.push(newTweet);
+    console.log(`Tweet enviado.`);
+    return newTweet;
   }
 
   follow(user: User) {
-    console.log(
-      `${this.username} seguiu: ${user}.\nSeu número de seguidores é: ${this
-        .follows++}.`
-    );
+    this.followers.push(user);
+    console.log(`${this.username} seguiu ${user.username}!.`);
   }
 
   showFeed() {
-    console.log(tweets);
+    this.followers.forEach((feed) => {
+      console.log(feed.tweets);
+    });
+    console.log(`Fim do Feed!`);
   }
 
   showTweets() {
-    tweets.forEach((item) => {
-      if (item.id === this._id) {
-        console.log(item);
-      } else {
-        console.log(`${this.username} não criou nenhum Tweet.`);
-      }
-    });
+    console.log(this.tweets);
   }
 }
